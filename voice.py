@@ -1,11 +1,19 @@
-import streamlit as st
-from PIL import Image
-import matplotlib.pyplot as plt
-import tensorflow_hub as hub
-import tensorflow as tf
-import numpy as np
-from tensorflow import keras
-from tensorflow.keras.models import load_model
-from tensorflow.keras import preprocessing
-import time
-fig = plt.figur
+from google.cloud import aiplatform
+import os
+
+# Initialize Gemini (replace with your API key)
+os.environ["GOOGLE_API_KEY"] = "your-api-key"
+aiplatform.init(project="your-project", location="us-central1")
+
+def transcribe_audio(audio_file_path):
+    # Simulated Gemini audio-to-text (adjust for actual API endpoint)
+    model = "gemini-1.5-flash"
+    with open(audio_file_path, "rb") as audio:
+        response = aiplatform.Endpoint(model).predict(
+            instances=[{"audio": audio.read()}]
+        )
+    return response.predictions[0]["text"]
+
+# Example usage
+text = transcribe_audio("check_balance.wav")
+print(f"Transcribed: {text}")
